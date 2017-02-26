@@ -1,0 +1,46 @@
+#MIW nodejs ex3
+version: '2'
+services:
+
+    nodejs:
+        container_name: miw_nodejs_ex3
+        build: ./docker/nodejs_ex3
+        working_dir: /var/www
+        volumes:
+          - ./ex2/:/var/www/
+        ports:
+          - "3000:3000"
+          - "80:80"
+        links:
+          - mongodb
+        networks:
+          mynet:
+            ipv4_address: 172.30.0.113
+
+    mongodb:
+        container_name: miw_mongodb
+        build: ./docker/mongo
+#        image: mongo
+        environment:
+            POSTGRES_USER: root
+            POSTGRES_PASSWORD: toor
+            POSTGRES_DB: "miwscrapper"
+        volumes:
+          - mongo-data:/var/lib/mongo
+        ports:
+            - "27017:27017"
+        networks:
+          mynet:
+            ipv4_address: 172.30.0.114
+
+volumes:
+    mongo-data:
+
+networks:
+  mynet:
+    driver: bridge
+    ipam:
+     config:
+       - subnet: 172.30.0.1/24
+
+

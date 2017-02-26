@@ -1,0 +1,43 @@
+
+
+# Create DB
+use miw_scrapper
+
+
+# show databases
+show dbs
+
+
+# Create Collection
+db.myCollection.insert({"name":"My first inserted element"})
+
+
+# show collections
+show collections
+
+
+# Drop collection
+db.myCollection.drop()
+
+show collections
+
+
+# Drop Database
+db.dropDatabase()
+
+
+
+
+# Mongoimport
+mongoimport --db town_db --collection town --file data/town.csv  --type csv --fields name,zipcode,townId --host 127.0.0.1
+
+
+# updating data value Casting zipcode int to string
+db.town.find().forEach(function(town) {
+
+    if(new String(town.zipcode).length < 5){
+        print( "changing zipcode format for town: "+town.name);
+        town.zipcode = String('0'+town.zipcode);
+        db.town.save(town);
+    }
+});

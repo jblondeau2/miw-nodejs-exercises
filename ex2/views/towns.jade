@@ -1,0 +1,8 @@
+extends layout
+
+block content
+    h1= title
+        p Towns :
+            ul
+                each town in towns
+                    li #{town.name} - #{town.zipcode}
