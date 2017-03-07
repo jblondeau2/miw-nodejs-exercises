@@ -21,6 +21,7 @@ class ProxyHarvester{
 
     loadFromHtml(html){
 
+        var numberOfProxies = 0;
         xray(html, ['#proxylisttable tbody'],
             {
                 //lines: xray(['tr@html'])
@@ -55,6 +56,8 @@ class ProxyHarvester{
 
                             // Saved.
                             console.log('Proxy saved:', newProxy.get('ipAddress')+':'+newProxy.get('port')+' - '+newProxy.get('hash'));
+                            numberOfProxies++;
+
                         });
 
                         //
@@ -73,9 +76,14 @@ class ProxyHarvester{
                     } catch (err) {
                         console.log('inserting error: '+err);
                     }
+
+//TODO : here
+                },function (err) {
+                    return numberOfProxies;
                 });
             }
         );
+
     }
 
 }

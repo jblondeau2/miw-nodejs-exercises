@@ -18,25 +18,37 @@ router.get('/', function(req, res, next) {
 });
 
 /* GET home page. */
-router.get('/proxies/dump', function(req, res, next) {
+router.get('/proxies/dump/:show?', function(req, res, next) {
 
 
-  var proxyHarverster = new ProxyHarverster();
-  var requestConfig = {
-    url: "https://free-proxy-list.net",
-    secure: 1,
-    path: '/'
-  };
+    var proxyHarverster = new ProxyHarverster();
+    var showTarget = (req.params.show == 'show') ? true : false;
+
+    var requestConfig = {
+        url: "https://free-proxy-list.net",
+        secure: 1,
+        path: '/'
+    };
 
   request.get(requestConfig, function (error, response, html) {
     if (!error && response.statusCode == 200) {
 
-      console.log(error || html);
+        console.log(error || html);
 
-      // Load Proxies from html
-      proxyHarverster.loadFromHtml(html);
-      res.send(html);
+        let numberOfProxies = 0;
 
+        // Load Proxies from html
+        numberOfProxies = proxyHarverster.loadFromHtml(html);
+
+
+        if(showTarget){
+            res.send(html);
+        }else{
+            res.render('dump', {
+                title: 'Dumping Proxies',
+                numberOfProxies: numberOfProxies
+            });
+        }
     }
   }).end();
 
