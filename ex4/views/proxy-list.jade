@@ -1,0 +1,8 @@
+extends layout
+
+block content
+  h1= title
+  p Proxies :
+    ul
+      each proxy in proxies
+        li #{proxy.ipAddress}:#{proxy.port} #{proxy.country}

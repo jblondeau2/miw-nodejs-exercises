@@ -21,7 +21,6 @@ services:
         container_name: miw_mongodb
         build: ./docker/mongo
 #        image: mongo
-        environment:
             MONGODB_USER: root
             MONGODB_PASS: toor
             MONGODB_DB: "miwscrapper"

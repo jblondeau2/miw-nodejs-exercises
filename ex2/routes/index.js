@@ -4,7 +4,7 @@ var router = express.Router();
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.render('index', {
-    title: 'MIW nodeJS Exercise n°1',
+    title: 'MIW nodeJS Exercise n°2',
     people: 'MIWs',
     techno: 'Express with nodeJS'
   });
