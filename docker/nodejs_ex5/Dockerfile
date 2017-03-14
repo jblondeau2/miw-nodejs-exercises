@@ -1,13 +1,18 @@
-FROM node:5-slim
+
+FROM node:7.7.1
+MAINTAINER Jérémy BLONDEAU <jblondeau2@gmail.com>
+
+ENV NODE_ENV production
+
+
+RUN npm install -g babel
+RUN npm install -g babel-cli
+RUN npm install -g create-react-app
+RUN npm install -g react-scripts
+
 
 WORKDIR /var/www
 
-# installing gulp
-RUN npm init -y
-
-# Npm install
-RUN npm install -g nodemon
-
-CMD ["nodemon", "-L", "./bin/www"]
 
 EXPOSE 3000
+

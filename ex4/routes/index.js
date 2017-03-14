@@ -30,7 +30,28 @@ router.get('/proxies/dump/:show?', function(req, res, next) {
         path: '/'
     };
 
-  request.get(requestConfig, function (error, response, html) {
+
+    // Load Proxies from html
+    proxyHarverster.loadFromHtml('').then(function(result){
+
+        console.log('plop');
+        if(showTarget){
+            res.send(html);
+        }else{
+            res.render('dump', {
+                title: 'Dumping Proxies',
+                numberOfProxies: result
+            });
+        }
+    }).catch(function(err){
+        res.render('dump-error', {
+            title: 'Dumping failed',
+            error: err
+        });
+    });
+console.log('plop');
+
+    request.get(requestConfig, function (error, response, html) {
     if (!error && response.statusCode == 200) {
 
         console.log(error || html);
@@ -38,17 +59,24 @@ router.get('/proxies/dump/:show?', function(req, res, next) {
         let numberOfProxies = 0;
 
         // Load Proxies from html
-        numberOfProxies = proxyHarverster.loadFromHtml(html);
+        proxyHarverster.loadFromHtml(html).then(function(result){
 
-
-        if(showTarget){
-            res.send(html);
-        }else{
-            res.render('dump', {
-                title: 'Dumping Proxies',
-                numberOfProxies: numberOfProxies
+            console.log('plop');
+            if(showTarget){
+                res.send(html);
+            }else{
+                res.render('dump', {
+                    title: 'Dumping Proxies',
+                    numberOfProxies: result
+                });
+            }
+        }).catch(function(err){
+            res.render('dump-error', {
+                title: 'Dumping failed',
+                error: err
             });
-        }
+        });
+
     }
   }).end();
 

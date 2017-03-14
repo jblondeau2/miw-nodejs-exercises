@@ -21,14 +21,15 @@ class ProxyHarvester{
 
     loadFromHtml(html){
 
-        var numberOfProxies = 0;
-        xray(html, ['#proxylisttable tbody'],
-            {
-                //lines: xray(['tr@html'])
-                ips: xray('tr', ['td:nth-child(1)@html']),
-                ports: xray('tr', ['td:nth-child(2)@html']),
-                country: xray('tr', ['td:nth-child(4)@html'])
-            })(function(err, obj) {
+        return new Promise(function(resolve, reject){
+
+            xray(html, ['#proxylisttable tbody'],
+                {
+                    //lines: xray(['tr@html'])
+                    ips: xray('tr', ['td:nth-child(1)@html']),
+                    ports: xray('tr', ['td:nth-child(2)@html']),
+                    country: xray('tr', ['td:nth-child(4)@html'])
+                })(function(err, obj) {
 
                 var result = array_group(obj.ips, obj.ports, obj.country);
                 var hasher = crypto.createHash('md5');
@@ -46,7 +47,7 @@ class ProxyHarvester{
                             ipAddress: infos.ip,
                             port: infos.port,
                             country: infos.country,
-  //                          hash: hash,
+                            //                          hash: hash,
                             status: true
                         });
 
@@ -56,34 +57,21 @@ class ProxyHarvester{
 
                             // Saved.
                             console.log('Proxy saved:', newProxy.get('ipAddress')+':'+newProxy.get('port')+' - '+newProxy.get('hash'));
-                            numberOfProxies++;
+                            //numberOfProxies++;
+                            //console.log(numberOfProxies);
 
                         });
 
-                        //
-                        //// Create entity
-                        //var proxy = new Proxy();
-                        //proxy.set('ipAddress', infos.ip);
-                        //proxy.set('port', infos.port);
-                        //proxy.set('country', infos.country);
-                        //proxy.set('burnt', false);
-                        //proxy.generateHash();
-                        //
-                        //proxy.save().then(function(proxy) {
-                        //    console.log('Proxy saved:', proxy.get('ip_address')+':'+proxy.get('port')+' - '+proxy.get('hash'));
-                        //});
-
                     } catch (err) {
                         console.log('inserting error: '+err);
+                        reject(err);
                     }
-
-//TODO : here
-                },function (err) {
-                    return numberOfProxies;
                 });
-            }
-        );
 
+                resolve(result.length);
+
+            });
+        });
     }
 
 }
