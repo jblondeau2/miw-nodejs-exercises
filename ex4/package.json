@@ -17,6 +17,7 @@
     "pug": "^2.0.0-beta11",
     "request": "^2.78.0",
     "serve-favicon": "~2.3.0",
-    "x-ray": "^2.3.1"
+    "x-ray": "^2.3.1",
+    "socket.io": "1.7.3"
   }
 }
