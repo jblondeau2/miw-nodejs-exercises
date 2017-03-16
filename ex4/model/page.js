@@ -5,19 +5,16 @@ var mongoose = require("mongoose"),
     fs = require('fs'),
     dbconfig = require('../config/dbconfig');
 
-
 //create schema for blog post
-var proxySchema = new mongoose.Schema({
-    ipAddress:  String,
-    port:  String,
-    country:  String,
-    status:  Boolean
+var pageSchema = new mongoose.Schema({
+    path:  String,
+    data:  String
 });
 
 
 // Defining unique hash index
-proxySchema.index({ ipAddress: 1, port: 1 }, { unique: true });
+pageSchema.index({ path: 1 }, { unique: true });
 
 
 //compile schema to model
-module.exports = dbconfig.db.model('Proxy', proxySchema, 'proxy');
+module.exports = dbconfig.db.model('Page', pageSchema, 'page');

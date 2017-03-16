@@ -21,7 +21,7 @@ class ProxyHarvester{
 
     loadFromHtml(html){
 
-        return new Promise(function(resolve, reject){
+        return new Promise((resolve, reject) => {
 
             xray(html, ['#proxylisttable tbody'],
                 {
@@ -29,51 +29,54 @@ class ProxyHarvester{
                     ips: xray('tr', ['td:nth-child(1)@html']),
                     ports: xray('tr', ['td:nth-child(2)@html']),
                     country: xray('tr', ['td:nth-child(4)@html'])
-                })(function(err, obj) {
+                })((err, obj) => {
 
                 var result = array_group(obj.ips, obj.ports, obj.country);
-                var hasher = crypto.createHash('md5');
+                var successfulInsert = 0;
+                var duplicate = 0;
 
                 console.log(result);
 
-                result.forEach(function(infos) {
+                var inserts = result.map((infos) => {
 
-                    try {
-
-//                        var hash = hasher.update(infos.ip+infos.port).digest('hex');
+                    return new Promise((resolve, reject) => {
 
                         // Creating proxy.
                         var newProxy = new Proxy({
                             ipAddress: infos.ip,
                             port: infos.port,
                             country: infos.country,
-                            //                          hash: hash,
                             status: true
                         });
 
                         // Saving New proxy.
                         newProxy.save(function (err) {
-                            if (err) return handleError(err);
+                            if (err){
+                                console.log('inserting error: '+err);
+                                duplicate++;
+                            }else{
+                                // Saved.
+                                console.log('Proxy saved:', newProxy.get('ipAddress')+':'+newProxy.get('port')+' - '+newProxy.get('hash'));
+                                successfulInsert++;
+                            }
 
-                            // Saved.
-                            console.log('Proxy saved:', newProxy.get('ipAddress')+':'+newProxy.get('port')+' - '+newProxy.get('hash'));
-                            //numberOfProxies++;
-                            //console.log(numberOfProxies);
-
+                            resolve();
                         });
-
-                    } catch (err) {
-                        console.log('inserting error: '+err);
-                        reject(err);
-                    }
+                    });
                 });
 
-                resolve(result.length);
+                Promise.all(inserts).then(() => {
+                    console.log('new: '+successfulInsert);
+                    console.log('duplicate: '+duplicate);
 
+                    resolve({
+                        'new': successfulInsert,
+                        'duplicate': duplicate
+                    });
+                });
             });
         });
     }
-
 }
 
 
