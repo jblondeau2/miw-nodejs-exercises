@@ -12,7 +12,7 @@ var gameSchema = new mongoose.Schema({
     player1_move:  Array,
     player2:  String,
     player2_move:  Array,
-    visitors:  Number,
+    guests:  Number,
     winner:  String,
     finished:  Boolean,
     nextTurn:  String

@@ -1,0 +1,35 @@
+extends layout
+
+block content
+  div(class="notification")
+
+    p(id="visitors")
+
+      span="Number of visitors:"
+      span(id="visitor-counter")
+
+    p(id="player-turn")
+
+      span="Turn:"
+      span(id="player-turn")
+
+    p(id="notification-text")
+
+  div(class="game")
+
+    table(class="grid", data-player-id=playerId, data-game-id=game.id)
+
+      tr(class="row-1")
+        td(class="col-a available game-cell", data-cell-id="1a")
+        td(class="col-b available game-cell", data-cell-id="1b")
+        td(class="col-c available game-cell", data-cell-id="1c")
+
+      tr(class="row-2")
+        td(class="col-a available game-cell", data-cell-id="2a")
+        td(class="col-b available game-cell", data-cell-id="2b")
+        td(class="col-c available game-cell", data-cell-id="2c")
+
+      tr(class="row-3")
+        td(class="col-a available game-cell", data-cell-id="3a")
+        td(class="col-b available game-cell", data-cell-id="3b")
+        td(class="col-c available game-cell", data-cell-id="3c")

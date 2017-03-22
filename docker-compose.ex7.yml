@@ -1,0 +1,46 @@
+#MIW nodejs ex7
+version: '2'
+services:
+
+    nodejs:
+        container_name: miw_nodejs_ex7
+        build: ./docker/nodejs_ex7
+        working_dir: /var/www
+        volumes:
+          - ./ex7/:/var/www/
+        ports:
+          - "3000:3000"
+          - "8000:8000"
+          - "80:80"
+        links:
+          - mongodb
+        networks:
+          mynet:
+            ipv4_address: 172.30.0.113
+
+    mongodb:
+        container_name: miw_mongodb
+        build: ./docker/mongo
+        environment:
+            POSTGRES_USER: root
+            POSTGRES_PASSWORD: toor
+            POSTGRES_DB: "proxy_db"
+        volumes:
+          - mongo-data:/var/lib/mongo
+          - ./docker/mongo/data/:/var/www/data/
+        ports:
+            - "27017:27017"
+        networks:
+          mynet:
+            ipv4_address: 172.30.0.114
+
+volumes:
+    mongo-data:
+#        driver: local
+
+networks:
+  mynet:
+    driver: bridge
+    ipam:
+     config:
+       - subnet: 172.30.0.1/24

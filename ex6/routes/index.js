@@ -11,7 +11,7 @@ var Game = require("../model/game");
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.render('index', {
-    title: 'MIW nodeJS Exercise n°6 : Morpion Game',
+    title: 'MIW nodeJS Exercise n°6 : Morpion Game'
   });
 });
 
@@ -33,23 +33,20 @@ router.get('/game/:id', function(req, res, next) {
 });
 
 /* GET home page. */
-router.get('/start-game', function(req, res, next) {
+router.post('/start-game', function(req, res, next) {
 
-  // Creating proxy.
-  //var newProxy = new Proxy({
-  //  ipAddress: infos.ip,
-  //  port: infos.port,
-  //  country: infos.country,
-  //  status: true
-  //});
-  var newGame = new Game({nextTurn:'user1'});
+    //var playerOne = req.body.username;
 
-  // Saving New proxy.
-  newGame.save(function (err) {
-    if (err) console.log('error: '+err);
+    console.log(req);
+    //console.log(playerOne);
+    var newGame = new Game({player1: playerOne, nextTurn:'user1'});
 
-    res.redirect('/game/'+newGame._id);
-  });
+    // Saving New proxy.
+    newGame.save(function (err) {
+        if (err) console.log('error: '+err);
+
+        res.redirect('/game/'+newGame._id);
+    });
 });
 
 
