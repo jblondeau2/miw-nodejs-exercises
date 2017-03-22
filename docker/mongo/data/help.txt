@@ -26,6 +26,10 @@ show collections
 db.dropDatabase()
 
 
+db.town.createIndex( { zipcode: 1 } )
+
+db.town.createIndex( { name: 1 }, {unique: true} )
+
 
 
 # Mongoimport

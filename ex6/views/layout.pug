@@ -1,9 +1,15 @@
 doctype html
 html
   head
-    title= title
+    title= "Morpion Game"
     link(rel='stylesheet', href='/stylesheets/style.css')
-    script(src='http://local.debian.dev:4000/socket.io/socket.io.js')
 
   body
     block content
+
+
+
+    script(src='https://code.jquery.com/jquery-1.10.2.min.js')
+    script(src='/socket.io/socket.io.js')
+    script(src='/scripts/main.js')
+

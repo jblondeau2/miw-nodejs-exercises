@@ -9,5 +9,6 @@ RUN npm init -y
 RUN npm install -g nodemon
 
 CMD ["nodemon", "-L", "./bin/www"]
+#CMD ["nodemon", "-L", "./index.js"]
 
 EXPOSE 3000

@@ -2,7 +2,7 @@ var mongoose = require("mongoose");
 
 var config = {'mongo': {},'db':{}};
 
-config.mongo.db = 'miw_scrap';
+config.mongo.db = 'miw_morpion';
 config.mongo.host = 'mongodb';
 config.mongo.port = '27017';
 config.mongo.user = 'root';

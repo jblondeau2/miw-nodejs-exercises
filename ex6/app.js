@@ -6,15 +6,11 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
 var defaultRoute = require('./routes/index');
-var proxyRoute = require('./routes/proxy');
-var websiteRoute = require('./routes/website');
 
 var app = express();
 
 // Base route path
 app.use('/', defaultRoute);
-app.use('/proxy', proxyRoute);
-app.use('/website', websiteRoute);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
